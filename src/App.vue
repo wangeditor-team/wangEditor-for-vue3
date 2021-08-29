@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="border: 1px solid #ccc; margin-top: 10px;">
+    <div  style="border: 1px solid #ccc; ">
       <Toolbar :editorId="editorId" />
     </div>
     <div style="border: 1px solid #ccc; margin-top: 10px;height: 300px">
@@ -19,7 +19,7 @@ export default defineComponent({
   name: 'App',
   data(){
     return {
-      defaultContent: [{ type: 'paragraph', children: [{ text: 'basic demo' }] }],
+      defaultContent: [],
       editorConfig: {
         placeholder: '请输入内容123...',
         // 菜单配置
@@ -52,4 +52,6 @@ export default defineComponent({
 })
 </script>
 
-
+<style>
+@import url(@wangeditor/editor-cattle/dist/css/style.css);
+</style>

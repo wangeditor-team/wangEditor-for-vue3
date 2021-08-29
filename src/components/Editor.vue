@@ -1,14 +1,14 @@
 <template>
-  <div ref="box" class="w-e-box-init"></div>
+  <div ref="box" style="height: 100%"></div>
 </template>
 
 <script lang='ts'>
-import { onMounted, defineComponent, ref, PropType } from 'vue'
+import { onMounted, defineComponent, ref, PropType, onUnmounted, onBeforeUnmount } from 'vue'
 import { createEditor, IEditorConfig } from '@wangeditor/editor-cattle'
 import { Descendant } from 'slate'
-import emitter from '../utils/emitter'
 import { recordEditor } from '../utils/editor-map'
 import { genErrorInfo } from '../utils/cteate-info'
+import emitter from '../utils/emitter'
 
 export default defineComponent({
   props: {
@@ -111,22 +111,18 @@ export default defineComponent({
         },
       })
     }
-
+    /**
+     * 元素挂在后初始化编辑器
+     */
     onMounted(() => {
       initEditor()
     })
-
+    
     return {
       box,
     }
   },
-  //    <style>
-  //  @import url(@wangeditor/editor-cattle/dist/css/style.css);
-  // .w-e-box-init {
-  //   height: 100%;
-  // }
-  // </style>
+ 
 })
 </script>
-
 
