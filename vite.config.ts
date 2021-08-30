@@ -7,9 +7,7 @@ const name = 'WangEditorForVue'
 const entry = path.resolve(__dirname, './src', 'index.ts')
 
 export default defineConfig({
-  plugins: [vue(), dts({
-    exclude: ['./src/App.vue', './src/main.ts']
-  })],
+
   build: {
     sourcemap: true,
     lib: {
@@ -27,5 +25,8 @@ export default defineConfig({
         }
       }
     },
-  }
+  },
+  plugins: [vue(), dts({
+    exclude: ['./src/App.vue', './src/main.ts']
+  })],
 })

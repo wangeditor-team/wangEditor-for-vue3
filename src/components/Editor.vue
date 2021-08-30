@@ -4,7 +4,7 @@
 
 <script lang='ts'>
 import { onMounted, defineComponent, ref, PropType, onUnmounted, onBeforeUnmount } from 'vue'
-import { createEditor, IEditorConfig } from '@wangeditor/editor-cattle'
+import { createEditor, IEditorConfig, SlateEditor } from '@wangeditor/editor-cattle'
 import { Descendant } from 'slate'
 import { recordEditor } from '../utils/editor-map'
 import { genErrorInfo } from '../utils/cteate-info'
@@ -117,12 +117,12 @@ export default defineComponent({
     onMounted(() => {
       initEditor()
     })
-    
+
     return {
       box,
     }
   },
- 
+
 })
 </script>
 

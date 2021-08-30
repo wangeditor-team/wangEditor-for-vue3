@@ -4,7 +4,7 @@
       <Toolbar :editorId="editorId" />
     </div>
     <div style="border: 1px solid #ccc; margin-top: 10px;height: 300px">
-      <Editor :editorId="editorId" :mode="mode"  :defaultConfig="editorConfig" :defaultContent="defaultContent" @onCreated="handleCreated"/>
+      <Editor :editorId="editorId" :mode="mode"  :defaultConfig="editorConfig" :defaultContent="defaultContent" />
     </div>
   </div>
 </template>
@@ -47,6 +47,7 @@ export default defineComponent({
   },
   methods:{
     handleCreated(editor: SlateEditor){
+      console.log(editor,'初始化完成')
     }
   }
 })

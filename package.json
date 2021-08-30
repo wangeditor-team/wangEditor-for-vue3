@@ -1,7 +1,7 @@
 {
-  "name": "@wangeditor/editor-for-vue3",
-  "version": "0.0.3",
-  "description": "wangEditor component for vue3.x",
+  "name": "@wangeditor/editor-for-vue",
+  "version": "5.0.0",
+  "description": "wangEditor component for vue@next",
   "author": "liuqh0609 <liuqh0609@163.com>",
   "homepage": "http://www.wangeditor.com/",
   "main": "./dist/index.umd.js",
@@ -11,7 +11,8 @@
   "keywords": [
     "wangEditor",
     "富文本编辑器",
-    "富文本"
+    "富文本",
+    "vue3"
   ],
   "exports": {
     ".": {
