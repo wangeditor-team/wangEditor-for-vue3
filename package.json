@@ -20,6 +20,10 @@
       "require": "./dist/index.umd.js"
     }
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wangeditor-team/wangEditor-for-vue3.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
