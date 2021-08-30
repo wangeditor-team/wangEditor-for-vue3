@@ -2,8 +2,8 @@ name: Node.js Package
 
 on:
   push:
-    branch:
-      - main
+    tag:
+      - 'v*.*.*'
 
 jobs:
   publish-npm:
@@ -15,6 +15,6 @@ jobs:
           node-version: 12
           registry-url: https://registry.npmjs.org/
       - run: npm i
-      - run: npm publish  --tag last --access=public
+      - run: npm publish  --tag next --access=public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
