@@ -6,3 +6,8 @@ docs/
 examples/
 test/
 attachment/
+.release-it.js
+index.html
+tsconfig.json
+vite.config.js
+src/
