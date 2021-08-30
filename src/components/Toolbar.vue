@@ -6,6 +6,7 @@
 import { onMounted, defineComponent, ref, onUnmounted, PropType } from 'vue'
 import { createToolbar, IToolbarConfig } from '@wangeditor/editor-cattle'
 import emitter from '../utils/emitter'
+import { DOMElement } from '@wangeditor/core/dist/core/src/utils/dom'
 
 export default defineComponent({
   props: {
@@ -43,7 +44,7 @@ export default defineComponent({
 
         createToolbar({
           editor,
-          toolbarSelector: box.value! as Element,
+          selector: box.value! as Element,
           mode: props.mode,
           config: props.defaultConfig,
         })

@@ -48,7 +48,7 @@ export default defineComponent({
     const initEditor = () => {
       if (!box.value) return
       createEditor({
-        textareaSelector: box.value! as Element,
+        selector: box.value! as Element,
         mode: props.mode,
         content: props.defaultContent || [],
         config: {
