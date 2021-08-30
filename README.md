@@ -1,42 +1,40 @@
-# wangEditor for Vue3 component
+# wangEditor for vue-next component
+ [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/facebook/react/blob/main/LICENSE) [![npm](https://img.shields.io/npm/v/@wangeditor/editor-for-vue/next.svg)](https://www.npmjs.com/package/@wangeditor/editor-for-vue/v/next) [![build status](https://github.com/vuejs/vue-next/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/wangeditor-team/wangEditor-for-vue3/actions)
+
 
 ## 使用
 
 1. 安装依赖
+```shell
+npm i @wangeditor/editor-for-vue@next --save-dev
+```
+
+2. 安装核心包
+```shell
+npm i @wangeditor/editor-cattle --save-dev
+```
+3. 导入组件
+```ts
+import { Editor, Toolbar } from '@wangeditor/editor-for-vue@next'
+```
+4. 引入样式
+```ts
+<style>
+   @import url(@wangeditor/editor-cattle/dist/css/style.css);
+</style>
+```
+
+## 开发
+
+1. 安装依赖 `npm install`
 2. 调试
    - 本地调试，启动example页面
-     - `yarn dev`
+     - `npm run dev`
    - 打包
-     - `yarn build`
+     - `npm run build`
    - 测试npm包
      - 需要先打包
-     - 然后进行`yarn link`
-
-
-## 目前存在的问题
-
-1. 不支持用户自定义`defaultContent`
-  > Uncaught TypeError: 'get' on proxy: property '0' is a read-only and non-configurable data property on the proxy target but the proxy did not return its actual value (expected '#<Object>' but got '#<Object>')
-  >
-  > at Proxy.forEach (<anonymous>)
-  >
-  > at c (immer.esm.js:1)
-  >
-  > at m (immer.esm.js:1)
-  >
-  > at C (immer.esm.js:1)
-  >
-  > at _ (immer.esm.js:1)
-  >
-  > at j (immer.esm.js:1)
-  >
-  > at e5.t2.finishDraft (immer.esm.js:1)
-  >
-  > at Object.transform (index.es.js:3977)
-  >
-  > at apply (index.es.js:84)
-  >
-  > at t3.apply (index.mjs:29)
+     - 然后进行`npm run link`
 
   
-2. 需要用户手动引入样式文件`@import url(@wangeditor/editor-cattle/dist/css/style.css);`
+
