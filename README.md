@@ -18,7 +18,7 @@ npm i @wangeditor/editor-cattle --save-dev
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue@next'
 ```
 4. 引入样式
-```ts
+```html
 <style>
    @import url(@wangeditor/editor-cattle/dist/css/style.css);
 </style>
@@ -33,7 +33,7 @@ import { Editor, Toolbar } from '@wangeditor/editor-for-vue@next'
    - 打包
      - `npm run build`
    - 测试npm包
-     - 需要先打包
+     - 需要先打包 `npm run build`
      - 然后进行`npm run link`
 
   
