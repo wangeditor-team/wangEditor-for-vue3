@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div style="border: 1px solid #ccc; ">
+    <div style="border: 1px solid #ccc">
       <!-- 工具栏 -->
-      <Toolbar :editorId="editorId" />
+      <Toolbar :editorId="editorId" :mode="mode" />
       <!-- 编辑器 -->
       <Editor
         :editorId="editorId"
@@ -18,60 +18,74 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import Editor from './components/Editor.vue'
-import Toolbar from './components/Toolbar.vue'
-import { IDomEditor } from '@wangeditor/editor-cattle'
-import cloneDeep from 'lodash.cloneDeep'
+import { defineComponent, computed } from "vue";
+import Editor from "./components/Editor.vue";
+import Toolbar from "./components/Toolbar.vue";
+import { IDomEditor } from "@wangeditor/editor-cattle";
+import cloneDeep from "lodash.cloneDeep";
 
 export default defineComponent({
-  name: 'App',
   components: {
-    Editor, Toolbar
+    Editor,
+    Toolbar,
   },
-  data() {
-    return {
-      defaultContent: [{
-        type: 'paragraph',
-        children: [{ text: '一行文字' }],
-      }],
-      editorConfig: {
-        placeholder: '请输入内容123...',
-        // 菜单配置
-        MENU_CONF: {
-          uploadImage: {
-            server: 'http://106.12.198.214:3000/api/upload-img', // 上传图片地址
-            fieldName: 'vue-demo-fileName',
-          },
-          insertImage: {
-            checkImage(src: string, alt: string, href: string): boolean | string | undefined {
-              if (src.indexOf('http') !== 0) {
-                return '图片网址必须以 http/https 开头'
-              }
-              return true
-            }
-          }
-        }
+  setup() {
+    // 模式
+    const mode = "default";
+    // 编辑器唯一id值
+    const editorId = "we-1001";
+    // 编辑器默认内容
+    const defaultContent = [
+      {
+        type: "paragraph",
+        children: [{ text: "一行文字" }],
       },
-      mode: 'default',
-      editorId: 'we-1001'
-    }
+    ];
+    // 深拷贝 defaultContent
+    const getDefaultContent = computed(() => cloneDeep(defaultContent));
+    // 编辑器相关配置
+    const editorConfig = {
+      placeholder: "请输入内容123...",
+      // 菜单配置
+      MENU_CONF: {
+        uploadImage: {
+          server: "http://106.12.198.214:3000/api/upload-img", // 上传图片地址
+          fieldName: "vue-demo-fileName",
+        },
+        insertImage: {
+          checkImage(
+            src: string,
+            alt: string,
+            href: string
+          ): boolean | string | undefined {
+            if (src.indexOf("http") !== 0) {
+              return "图片网址必须以 http/https 开头";
+            }
+            return true;
+          },
+        },
+      },
+    };
+
+    // 编辑器创建完成触发
+    const handleCreated = (editor: IDomEditor) => {
+      console.log("created", editor);
+    };
+    // 编辑器change事件触发
+    const handleChange = (editor: IDomEditor) => {
+      console.log("change:", editor.getText());
+    };
+
+    return {
+      editorId,
+      mode,
+      getDefaultContent,
+      editorConfig,
+      handleCreated,
+      handleChange,
+    };
   },
-  computed: {
-    // 深拷贝 content
-    getDefaultContent(): any {
-      return cloneDeep(this.defaultContent)
-    }
-  },
-  methods: {
-    handleCreated(editor: IDomEditor) {
-      console.log(editor, 'init finish')
-    },
-    handleChange(editor: IDomEditor) {
-      console.log(editor.getText())
-    }
-  }
-})
+});
 </script>
 
 <style>
