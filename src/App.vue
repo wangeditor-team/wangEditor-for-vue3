@@ -1,10 +1,18 @@
 <template>
   <div>
-    <div  style="border: 1px solid #ccc; ">
+    <div style="border: 1px solid #ccc; ">
+      <!-- 工具栏 -->
       <Toolbar :editorId="editorId" />
-    </div>
-    <div style="border: 1px solid #ccc; margin-top: 10px;height: 300px">
-      <Editor :editorId="editorId" :mode="mode"  :defaultConfig="editorConfig" :defaultContent="defaultContent" />
+      <!-- 编辑器 -->
+      <Editor
+        :editorId="editorId"
+        :mode="mode"
+        :defaultConfig="editorConfig"
+        :defaultContent="getDefaultContent"
+        @onCreated="handleCreated"
+        @onChange="handleChange"
+        style="height: 500px"
+      />
     </div>
   </div>
 </template>
@@ -13,13 +21,20 @@
 import { defineComponent } from 'vue'
 import Editor from './components/Editor.vue'
 import Toolbar from './components/Toolbar.vue'
-import { SlateEditor } from '@wangeditor/editor-cattle'
+import { IDomEditor } from '@wangeditor/editor-cattle'
+import cloneDeep from 'lodash.cloneDeep'
 
 export default defineComponent({
   name: 'App',
-  data(){
+  components: {
+    Editor, Toolbar
+  },
+  data() {
     return {
-      defaultContent: [],
+      defaultContent: [{
+        type: 'paragraph',
+        children: [{ text: '一行文字' }],
+      }],
       editorConfig: {
         placeholder: '请输入内容123...',
         // 菜单配置
@@ -38,16 +53,22 @@ export default defineComponent({
           }
         }
       },
-      mode:'default',
+      mode: 'default',
       editorId: 'we-1001'
     }
   },
-  components: {
-    Editor,Toolbar
+  computed: {
+    // 深拷贝 content
+    getDefaultContent(): any {
+      return cloneDeep(this.defaultContent)
+    }
   },
-  methods:{
-    handleCreated(editor: SlateEditor){
-      console.log(editor,'初始化完成')
+  methods: {
+    handleCreated(editor: IDomEditor) {
+      console.log(editor, 'init finish')
+    },
+    handleChange(editor: IDomEditor) {
+      console.log(editor.getText())
     }
   }
 })
