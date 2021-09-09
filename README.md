@@ -6,12 +6,12 @@
 
 1. 安装依赖
 ```shell
-npm i @wangeditor/editor-for-vue@next --save-dev
+npm i @wangeditor/editor-for-vue@next --save
 ```
 
 2. 安装核心包
 ```shell
-npm i @wangeditor/editor-cattle --save-dev
+npm i @wangeditor/editor-cattle --save
 ```
 3. 导入组件
 ```ts
