@@ -1,12 +1,10 @@
-<template>
-  <div ref="box"></div>
-</template>
 
 <script lang='ts'>
-import { onMounted, defineComponent, ref, onUnmounted, PropType } from 'vue'
-import { createToolbar, IToolbarConfig } from '@wangeditor/editor-cattle'
+import { h, onMounted, defineComponent, ref, onUnmounted, PropType } from 'vue'
+import { createToolbar, IToolbarConfig, Toolbar } from '@wangeditor/editor-cattle'
 import emitter from '../utils/emitter'
-import { DOMElement } from '@wangeditor/core/dist/core/src/utils/dom'
+import { divide } from 'lodash'
+import { getEditor, removeEditor } from '../utils/editor-map'
 
 export default defineComponent({
   props: {
@@ -26,14 +24,14 @@ export default defineComponent({
       default: {},
     },
   },
-  setup(props, context) {
+  setup(props) {
     // 编辑器容器
-    const box = ref(null)
+    const selector = ref(null)
     /**
      * 初始化编辑器
      */
     const initToolbar = () => {
-      if (!box.value) return
+      if (!selector.value) return
 
       // 监听编辑器创建成功的事件，创建成功后创建对应的toolbar
       emitter.on(`w-e-created-${props.editorId}`, editor => {
@@ -44,7 +42,7 @@ export default defineComponent({
 
         createToolbar({
           editor,
-          selector: box.value! as Element,
+          selector: selector.value! as Element || '<div></div>',
           mode: props.mode,
           config: props.defaultConfig,
         })
@@ -59,10 +57,13 @@ export default defineComponent({
       emitter.off(`w-e-created-${props.editorId}`, initToolbar)
     })
 
-    return {
-      box,
-    }
+    return () =>
+      h('div', {
+        ref: selector
+      })
   },
 })
+
+
 </script>
 

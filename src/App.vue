@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div style="border: 1px solid #ccc">
+    <button @click="handleCreateEditor">{{ flag ? '销毁Editor' : '创建Editor' }}</button>
+    <div v-if="flag" style="border: 1px solid #ccc">
       <!-- 工具栏 -->
       <Toolbar :editorId="editorId" :mode="mode" />
       <!-- 编辑器 -->
@@ -11,14 +12,15 @@
         :defaultContent="getDefaultContent"
         @onCreated="handleCreated"
         @onChange="handleChange"
-        style="height: 500px"
+        @customPaste="handlePaste"
+        style="height: 300px"
       />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue";
+import { defineComponent, computed, ref } from "vue";
 import Editor from "./components/Editor.vue";
 import Toolbar from "./components/Toolbar.vue";
 import { IDomEditor } from "@wangeditor/editor-cattle";
@@ -30,6 +32,7 @@ export default defineComponent({
     Toolbar,
   },
   setup() {
+    const flag = ref(false);
     // 模式
     const mode = "default";
     // 编辑器唯一id值
@@ -75,14 +78,26 @@ export default defineComponent({
     const handleChange = (editor: IDomEditor) => {
       console.log("change:", editor.getText());
     };
+    // 自定义粘贴事件
+    const handlePaste = (editor: IDomEditor, event: ClipboardEvent, callback: (val: boolean) => void) => {
+      editor.insertText('test')
+      callback(false)
+    };
+
+    const handleCreateEditor = () => {
+      flag.value = !flag.value;
+    }
 
     return {
+      flag,
       editorId,
       mode,
       getDefaultContent,
       editorConfig,
       handleCreated,
       handleChange,
+      handlePaste,
+      handleCreateEditor
     };
   },
 });

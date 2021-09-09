@@ -6,7 +6,7 @@
 import { onMounted, defineComponent, ref, PropType, onUnmounted, onBeforeUnmount } from 'vue'
 import { createEditor, IEditorConfig, SlateEditor } from '@wangeditor/editor-cattle'
 import { Descendant } from 'slate'
-import { recordEditor } from '../utils/editor-map'
+import { getEditor, recordEditor, removeEditor } from '../utils/editor-map'
 import { genErrorInfo } from '../utils/cteate-info'
 import emitter from '../utils/emitter'
 
@@ -108,6 +108,17 @@ export default defineComponent({
               throw new Error(info)
             }
           },
+          customPaste: (editor, event): any => {
+            if (props.defaultConfig.customPaste) {
+              const info = genErrorInfo('customPaste')
+              throw new Error(info)
+            }
+            let res
+            context.emit('customPaste', editor, event, (val:boolean) => {
+              res = val
+            })
+            return res
+          },
         },
       })
     }
@@ -116,6 +127,15 @@ export default defineComponent({
      */
     onMounted(() => {
       initEditor()
+    })
+
+
+    onUnmounted(()=>{
+      const editor = getEditor(props.editorId)
+      if (editor == null) return
+      // 销毁，并移除 editor
+      editor.destroy()
+      removeEditor(props.editorId)
     })
 
     return {
