@@ -23,7 +23,7 @@
 import { defineComponent, computed, ref } from "vue";
 import Editor from "./components/Editor.vue";
 import Toolbar from "./components/Toolbar.vue";
-import { IDomEditor } from "@wangeditor/editor-cattle";
+import { IDomEditor } from "@wangeditor/editor";
 import cloneDeep from "lodash.cloneDeep";
 
 export default defineComponent({
@@ -104,5 +104,5 @@ export default defineComponent({
 </script>
 
 <style>
-@import url(@wangeditor/editor-cattle/dist/css/style.css);
+@import url(@wangeditor/editor/dist/css/style.css);
 </style>

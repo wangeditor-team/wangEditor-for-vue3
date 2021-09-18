@@ -4,7 +4,7 @@
 
 <script lang='ts'>
 import { onMounted, defineComponent, ref, PropType, onUnmounted, onBeforeUnmount } from 'vue'
-import { createEditor, IEditorConfig, SlateEditor } from '@wangeditor/editor-cattle'
+import { createEditor, IEditorConfig, SlateEditor } from '@wangeditor/editor'
 import { Descendant } from 'slate'
 import { getEditor, recordEditor, removeEditor } from '../utils/editor-map'
 import { genErrorInfo } from '../utils/cteate-info'

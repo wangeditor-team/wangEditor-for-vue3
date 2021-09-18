@@ -13,7 +13,7 @@ import {
   createToolbar,
   IDomEditor,
   IToolbarConfig,
-} from "@wangeditor/editor-cattle";
+} from "@wangeditor/editor";
 import emitter from "../utils/emitter";
 import { getEditor } from "../utils/editor-map";
 
