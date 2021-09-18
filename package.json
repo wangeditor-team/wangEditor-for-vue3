@@ -31,7 +31,7 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview",
-    "publish": "release-it"
+    "release": "release-it"
   },
   "peerDependencies": {
     "@wangeditor/editor": "^0.9.0",
