@@ -26,7 +26,7 @@ import { defineComponent, computed, ref } from "vue";
 import Editor from "./components/Editor.vue";
 import Toolbar from "./components/Toolbar.vue";
 import { IDomEditor } from "@wangeditor/editor";
-import cloneDeep from "lodash.cloneDeep";
+import { cloneDeep } from "lodash";
 
 export default defineComponent({
   components: {
