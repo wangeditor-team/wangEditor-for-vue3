@@ -7,10 +7,6 @@
           "node": "current"
         }
       }
-      // {
-      //   "corejs": 3,
-      //   "targets": "ie 8"
-      // }
     ]
   ]
 }
