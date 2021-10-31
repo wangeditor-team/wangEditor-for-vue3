@@ -4,6 +4,8 @@
 
 ## 使用
 
+> 详情请访问[用户文档](：https://www.wangeditor.com/v5/guide/for-frame.html#vue3)
+
 1. 安装依赖
 
 ```shell
@@ -19,7 +21,7 @@ npm i @wangeditor/editor --save
 3. 导入组件
 
 ```ts
-import { Editor, Toolbar } from '@wangeditor/editor-for-vue@next';
+import { Editor, Toolbar } from "@wangeditor/editor-for-vue@next";
 ```
 
 4. 引入样式
