@@ -9,11 +9,7 @@ import {
   PropType,
   onBeforeMount,
 } from "vue";
-import {
-  createToolbar,
-  IDomEditor,
-  IToolbarConfig,
-} from "@wangeditor/editor";
+import { createToolbar, IDomEditor, IToolbarConfig } from "@wangeditor/editor";
 import emitter from "../utils/emitter";
 import { getEditor } from "../utils/editor-map";
 

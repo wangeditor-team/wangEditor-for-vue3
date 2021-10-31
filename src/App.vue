@@ -1,6 +1,8 @@
 <template>
   <div>
-    <button @click="handleCreateEditor">{{ flag ? '销毁Editor' : '创建Editor' }}</button>
+    <button @click="handleCreateEditor">
+      {{ flag ? "销毁Editor" : "创建Editor" }}
+    </button>
     <div v-if="flag" style="border: 1px solid #ccc">
       <!-- 工具栏 -->
       <Toolbar :editorId="editorId" :mode="mode" />
@@ -79,14 +81,18 @@ export default defineComponent({
       console.log("change:", editor.getText());
     };
     // 自定义粘贴事件
-    const handlePaste = (editor: IDomEditor, event: ClipboardEvent, callback: (val: boolean) => void) => {
-      editor.insertText('test')
-      callback(false)
+    const handlePaste = (
+      editor: IDomEditor,
+      event: ClipboardEvent,
+      callback: (val: boolean) => void
+    ) => {
+      editor.insertText("test");
+      callback(false);
     };
 
     const handleCreateEditor = () => {
       flag.value = !flag.value;
-    }
+    };
 
     return {
       flag,
@@ -97,7 +103,7 @@ export default defineComponent({
       handleCreated,
       handleChange,
       handlePaste,
-      handleCreateEditor
+      handleCreateEditor,
     };
   },
 });

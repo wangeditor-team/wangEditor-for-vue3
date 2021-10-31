@@ -10,6 +10,12 @@
     "esModuleInterop": true,
     "lib": ["esnext", "dom"]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx","src/components/*.vue"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/components/*.vue",
+    "__test__/*"
+  ],
   "exclude": ["src/App.vue"]
 }

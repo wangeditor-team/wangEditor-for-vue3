@@ -1,0 +1,16 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "current"
+        }
+      }
+      // {
+      //   "corejs": 3,
+      //   "targets": "ie 8"
+      // }
+    ]
+  ]
+}
