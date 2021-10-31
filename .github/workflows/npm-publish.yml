@@ -3,9 +3,8 @@ name: Node.js Package
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - "v*.*.*"
 
-      
 jobs:
   publish-npm:
     runs-on: ubuntu-latest
@@ -16,6 +15,7 @@ jobs:
           node-version: 12
           registry-url: https://registry.npmjs.org/
       - run: npm i
+      - run: npm run test
       - run: npm run build
       - run: npm publish  --tag next --access=public
         env:
