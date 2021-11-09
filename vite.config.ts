@@ -12,7 +12,13 @@ export default defineConfig({
     lib: {
       entry,
       name: name,
-      fileName: (format) => `index.${format}.js`,
+      fileName: (format) => {
+        if (format === 'es') {
+          return `index.esm.js`;
+        } else if (format === 'umd') {
+          return `index.js`;
+        }
+      },
     },
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖
