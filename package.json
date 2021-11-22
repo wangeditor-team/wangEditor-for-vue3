@@ -1,11 +1,11 @@
 {
   "name": "@wangeditor/editor-for-vue",
-  "version": "5.1.5",
+  "version": "5.1.6",
   "description": "wangEditor component for vue@next",
   "author": "liuqh0609 <liuqh0609@163.com>",
   "homepage": "http://www.wangeditor.com/",
-  "main": "./dist/index.umd.js",
-  "module": "./dist/index.es.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.esm.js",
   "license": "MIT",
   "types": "dist/src/index.d.ts",
   "files": [
@@ -19,8 +19,8 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.umd.js"
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js"
     }
   },
   "repository": {
