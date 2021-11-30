@@ -1,37 +1,38 @@
-# wangEditor for vue-next component
+# wangEditor for Vue
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/facebook/react/blob/main/LICENSE) [![npm](https://img.shields.io/npm/v/@wangeditor/editor-for-vue/next.svg)](https://www.npmjs.com/package/@wangeditor/editor-for-vue/v/next) [![build status](https://github.com/wangeditor-team/wangEditor-for-vue3/actions/workflows/npm-publish.yml/badge.svg?branch=main)](https://github.com/wangeditor-team/wangEditor-for-vue3/actions)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/facebook/react/blob/main/LICENSE) [![npm](https://img.shields.io/npm/v/@wangeditor/editor-for-vue.svg)](https://www.npmjs.com/package/@wangeditor/editor-for-vue/v/next) [![build status](https://github.com/wangeditor-team/wangEditor-for-vue3/actions/workflows/npm-publish.yml/badge.svg?branch=main)](https://github.com/wangeditor-team/wangEditor-for-vue3/actions)
 
-[English documentation](./README-en.md)
+[中文文档](./README.md)
 
-## 介绍
+## Introduction
 
-基于 [wangEditor](https://www.wangeditor.com/v5/) 封装的开箱即用的 [vue3 组件](https://www.wangeditor.com/v5/guide/for-frame.html#vue3)
+An out-of-the-box [vue3 component](https://www.wangeditor.com/v5/guide/for-frame.html#vue3)
+based on the [wangEditor v5](https://www.wangeditor.com/v5/guide/for-frame.html#vue3)
 
-## 安装
+## Installation
 
-1. 安装 `wangeditor` 核心包
+1. Install the `wangeditor` core package
 
 ```shell
 yarn add @wangeditor/editor
 ```
 
-2. 安装组件包
+2. Install the current component package
 
 ```shell
-yarn add @wangeditor/editor-for-vue@next
+yarn add @wangeditor/editor-for-vue
 ```
 
-## 使用
+## Usage
 
-### 模板
+### template
 
 ```html
 <template>
   <div style="border: 1px solid #ccc">
-    <!-- 工具栏 -->
+    <!-- toolbar -->
     <Toolbar :editorId="editorId" style="border-bottom: 1px solid #ccc" />
-    <!-- 编辑器 -->
+    <!-- editor -->
     <Editor
       :editorId="editorId"
       :defaultConfig="editorConfig"
@@ -46,8 +47,7 @@ yarn add @wangeditor/editor-for-vue@next
 ### Script
 
 ```ts
-import '@wangeditor/editor/dist/css/style.css'; // 也可以在 <style> 中 import
-
+import '@wangeditor/editor/dist/css/style.css';
 import { computed, onUnmounted } from 'vue';
 import { Editor, Toolbar, getEditor, removeEditor } from '@wangeditor/editor-for-vue';
 import cloneDeep from 'lodash.clonedeep';
@@ -57,7 +57,6 @@ export default {
   components: { Editor, Toolbar },
   setup() {
     const editorId = 'wangeEditor-1';
-    // 默认内容
     const defaultContent = [
       {
         type: 'paragraph',
@@ -65,10 +64,10 @@ export default {
       },
     ];
 
-    // 注意，深度拷贝 content ，否则会报错
+    // Deep clone `content`
     const getDefaultContent = computed(() => cloneDeep(defaultContent));
 
-    // 编辑器配置
+    // Editor config
     const editorConfig = {
       placeholder: '请输入内容...',
     };
@@ -77,12 +76,12 @@ export default {
       console.log('change:', editor.children);
     };
 
-    // 及时销毁编辑器
+    // Timely destroy editor
     onUnmounted(() => {
       const editor = getEditor(editorId);
       if (editor == null) return;
 
-      // 销毁，并移除 editor
+      // Destroy and remove editor
       editor.destroy();
       removeEditor(editorId);
     });
