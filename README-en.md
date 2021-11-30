@@ -25,7 +25,7 @@ yarn add @wangeditor/editor-for-vue
 
 ## Usage
 
-### template
+### Template
 
 ```html
 <template>
