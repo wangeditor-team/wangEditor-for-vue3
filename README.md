@@ -56,7 +56,7 @@ export default {
   name: 'MyEditor',
   components: { Editor, Toolbar },
   setup() {
-    const editorId = 'wangeEditor-1';
+    const editorId = 'wangEditor-1';
     // 默认内容
     const defaultContent = [
       {

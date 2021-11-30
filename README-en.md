@@ -56,11 +56,11 @@ export default {
   name: 'MyEditor',
   components: { Editor, Toolbar },
   setup() {
-    const editorId = 'wangeEditor-1';
+    const editorId = 'wangEditor-1';
     const defaultContent = [
       {
         type: 'paragraph',
-        children: [{ text: '一行文字' }],
+        children: [{ text: 'One line of text' }],
       },
     ];
 
@@ -69,7 +69,7 @@ export default {
 
     // Editor config
     const editorConfig = {
-      placeholder: '请输入内容...',
+      placeholder: 'Type your text...',
     };
 
     const handleChange = (editor) => {
