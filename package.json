@@ -1,6 +1,6 @@
 {
   "name": "@wangeditor/editor-for-vue",
-  "version": "5.1.8-4",
+  "version": "5.1.8-5",
   "description": "wangEditor component for vue@next",
   "author": "liuqh0609 <liuqh0609@163.com>",
   "homepage": "http://www.wangeditor.com/",
@@ -35,7 +35,7 @@
     "test": "jest"
   },
   "peerDependencies": {
-    "@wangeditor/editor": "^0.13.3",
+    "@wangeditor/editor": "^0.13.4",
     "vue": "^3.0.5"
   },
   "dependencies": {
@@ -53,7 +53,7 @@
     "@vitejs/plugin-vue": "^1.3.0",
     "@vue/compiler-sfc": "^3.0.5",
     "@vue/test-utils": "^2.0.0-rc.16",
-    "@wangeditor/editor": "^0.13.3",
+    "@wangeditor/editor": "^0.13.4",
     "babel-jest": "^26.6.3",
     "jest": "25.5.4",
     "lodash": "^4.17.21",
