@@ -7,7 +7,7 @@ import { onMounted, defineComponent, ref, PropType, onUnmounted } from "vue";
 import { createEditor, IEditorConfig } from "@wangeditor/editor";
 import { Descendant } from "slate";
 import { getEditor, recordEditor, removeEditor } from "../utils/editor-map";
-import { genErrorInfo } from "../utils/cteate-info";
+import { genErrorInfo } from "../utils/create-info";
 import emitter from "../utils/emitter";
 
 export default defineComponent({
@@ -26,6 +26,10 @@ export default defineComponent({
     defaultContent: {
       type: Array as PropType<Descendant[]>,
       default: [],
+    },
+    defaultHtml: {
+      type: String,
+      default: '',
     },
     /** 编辑器默认配置 */
     defaultConfig: {
@@ -47,10 +51,12 @@ export default defineComponent({
      */
     const initEditor = () => {
       if (!box.value) return;
+
       createEditor({
         selector: box.value! as Element,
         mode: props.mode,
         content: props.defaultContent || [],
+        html: props.defaultHtml || '',
         config: {
           ...props.defaultConfig,
           onCreated(editor) {

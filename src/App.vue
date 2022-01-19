@@ -12,6 +12,7 @@
         :mode="mode"
         :defaultConfig="editorConfig"
         :defaultContent="getDefaultContent"
+        :defaultHtml="defaultHtml"
         @onCreated="handleCreated"
         @onChange="handleChange"
         @customPaste="handlePaste"
@@ -39,7 +40,8 @@ export default defineComponent({
     const mode = "default";
     // 编辑器唯一id值
     const editorId = "we-1001";
-    // 编辑器默认内容
+
+    // 编辑器默认内容 - JSON 格式
     const defaultContent = [
       {
         type: "paragraph",
@@ -48,9 +50,14 @@ export default defineComponent({
     ];
     // 深拷贝 defaultContent
     const getDefaultContent = computed(() => cloneDeep(defaultContent));
+
+    // 编辑器默认内容 - HTML 格式
+    // const defaultHtml = '<p>hello&nbsp;<strong>world</strong></p>\n<p><br></p>'
+    const defaultHtml = ''
+
     // 编辑器相关配置
     const editorConfig = {
-      placeholder: "请输入内容123...",
+      placeholder: "请输入内容...",
       // 菜单配置
       MENU_CONF: {
         uploadImage: {
@@ -99,6 +106,7 @@ export default defineComponent({
       editorId,
       mode,
       getDefaultContent,
+      defaultHtml,
       editorConfig,
       handleCreated,
       handleChange,

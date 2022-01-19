@@ -3,10 +3,16 @@ name: Node.js Package
 on:
   push:
     branches:
-      - main
+      - 'main'
+      - 'master'
+      - 'dev'
+      - 'feature-*'
+      - 'fix-*'
+      - 'hotfix-*'
+      - 'refactor-*'
 
 jobs:
-  publish-npm:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -14,8 +20,8 @@ jobs:
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
-      - run: npm i
+      - run: yarn install
       - run: npm --version
       - run: node --version
-      - run: npm run test
-      - run: npm run build
+      - run: yarn test
+      - run: yarn build
