@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-  import { onMounted, defineComponent, ref, PropType, onUnmounted, toRaw } from 'vue'
+  import { onMounted, defineComponent, ref, PropType, toRaw, onBeforeUnmount } from 'vue'
   import { createEditor, IEditorConfig } from '@wangeditor/editor'
   import { Descendant } from 'slate'
   import { getEditor, recordEditor, removeEditor } from '../utils/editor-map'
@@ -116,7 +116,7 @@
        */
       onMounted(initEditor)
 
-      onUnmounted(() => {
+      onBeforeUnmount(() => {
         const editor = getEditor(props.editorId)
         if (editor == null) return
         // 销毁，并移除 editor
@@ -124,9 +124,7 @@
         removeEditor(props.editorId)
       })
 
-      return {
-        box,
-      }
+      return { box }
     },
   })
 </script>

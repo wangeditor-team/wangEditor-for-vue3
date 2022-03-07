@@ -2,8 +2,8 @@
   <div ref="selector" classname="w-e-toolbar-init"></div>
 </template>
 <script lang="ts">
-  import { defineComponent, ref, onUnmounted, PropType, onBeforeMount } from 'vue'
-  import { createToolbar, IDomEditor, IToolbarConfig } from '@wangeditor/editor'
+  import { defineComponent, ref, PropType, onBeforeUnmount } from 'vue'
+  import { createToolbar, IDomEditor, IToolbarConfig, Toolbar } from '@wangeditor/editor'
   import emitter from '../utils/emitter'
   import { getEditor } from '../utils/editor-map'
 
@@ -29,6 +29,8 @@
       // 编辑器容器
       const selector = ref(null)
 
+      let instance: Toolbar
+
       /**
        * 初始化编辑器
        */
@@ -38,7 +40,8 @@
         if (editor == null) {
           throw new Error('Not found instance of Editor when create <Toolbar/> component')
         }
-        createToolbar({
+
+        instance = createToolbar({
           editor,
           selector: selector.value || '<div></div>',
           mode: props.mode,
@@ -48,8 +51,9 @@
 
       emitter.on(`w-e-created-${props.editorId}`, initToolbar)
 
-      onUnmounted(() => {
+      onBeforeUnmount(() => {
         emitter.off(`w-e-created-${props.editorId}`, initToolbar)
+        instance && instance.destroy()
       })
 
       return {

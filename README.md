@@ -35,7 +35,7 @@ yarn add @wangeditor/editor-for-vue@next
     <Editor
       :editorId="editorId"
       :defaultConfig="editorConfig"
-      :defaultContent="getDefaultContent"
+      :defaultContent="defaultContent"
       @onChange="handleChange"
       style="height: 500px"
     />
@@ -46,53 +46,39 @@ yarn add @wangeditor/editor-for-vue@next
 ### Script
 
 ```ts
-import '@wangeditor/editor/dist/css/style.css'; // 也可以在 <style> 中 import
+import '@wangeditor/editor/dist/css/style.css' // 也可以在 <style> 中 import
 
-import { computed, onUnmounted } from 'vue';
-import { Editor, Toolbar, getEditor, removeEditor } from '@wangeditor/editor-for-vue';
-import cloneDeep from 'lodash.clonedeep';
+import { computed, onUnmounted } from 'vue'
+import { Editor, Toolbar, getEditor, removeEditor } from '@wangeditor/editor-for-vue'
 
 export default {
   name: 'MyEditor',
   components: { Editor, Toolbar },
   setup() {
-    const editorId = 'wangEditor-1';
+    const editorId = 'wangEditor-1'
     // 默认内容
     const defaultContent = [
       {
         type: 'paragraph',
         children: [{ text: '一行文字' }],
       },
-    ];
-
-    // 注意，深度拷贝 content ，否则会报错
-    const getDefaultContent = computed(() => cloneDeep(defaultContent));
+    ]
 
     // 编辑器配置
     const editorConfig = {
       placeholder: '请输入内容...',
-    };
+    }
 
     const handleChange = (editor) => {
-      console.log('change:', editor.children);
-    };
-
-    // 及时销毁编辑器
-    onUnmounted(() => {
-      const editor = getEditor(editorId);
-      if (editor == null) return;
-
-      // 销毁，并移除 editor
-      editor.destroy();
-      removeEditor(editorId);
-    });
+      console.log('change:', editor.children)
+    }
 
     return {
       editorId,
-      getDefaultContent,
+      defaultContent,
       editorConfig,
       handleChange,
-    };
+    }
   },
-};
+}
 ```
