@@ -69,7 +69,7 @@ export default {
       placeholder: '请输入内容...',
     }
 
-    const handleChange = (editor) => {
+    const handleChange = editor => {
       console.log('change:', editor.children)
     }
 
