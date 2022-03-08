@@ -2,8 +2,8 @@
   <div ref="selector" classname="w-e-toolbar-init"></div>
 </template>
 <script lang="ts">
-import { defineComponent, ref, onUnmounted, PropType, onBeforeMount } from 'vue'
-import { createToolbar, IDomEditor, IToolbarConfig } from '@wangeditor/editor'
+import { defineComponent, ref, PropType, onBeforeUnmount } from 'vue'
+import { createToolbar, IDomEditor, IToolbarConfig, Toolbar } from '@wangeditor/editor'
 import emitter from '../utils/emitter'
 import { getEditor } from '../utils/editor-map'
 
@@ -22,12 +22,15 @@ export default defineComponent({
     /** 编辑器默认配置 */
     defaultConfig: {
       type: Object as PropType<Partial<IToolbarConfig>>,
-      default: {},
+      default: () => ({}),
     },
   },
   setup(props) {
     // 编辑器容器
     const selector = ref(null)
+
+    let instance: Toolbar
+
     /**
      * 初始化编辑器
      */
@@ -37,27 +40,23 @@ export default defineComponent({
       if (editor == null) {
         throw new Error('Not found instance of Editor when create <Toolbar/> component')
       }
-      createToolbar({
+
+      instance = createToolbar({
         editor,
-        selector: (selector.value! as Element) || '<div></div>',
+        selector: selector.value || '<div></div>',
         mode: props.mode,
         config: props.defaultConfig,
       })
     }
 
-    onBeforeMount(() => {
-      emitter.on(`w-e-created-${props.editorId}`, editor => {
-        initToolbar(editor)
-      })
-    })
+    emitter.on(`w-e-created-${props.editorId}`, initToolbar)
 
-    onUnmounted(() => {
+    onBeforeUnmount(() => {
       emitter.off(`w-e-created-${props.editorId}`, initToolbar)
+      instance && instance.destroy()
     })
 
-    return {
-      selector,
-    }
+    return { selector }
   },
 })
 </script>

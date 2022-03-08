@@ -3,9 +3,8 @@
 </template>
 
 <script lang="ts">
-import { onMounted, defineComponent, ref, PropType, onUnmounted } from 'vue'
-import { createEditor, IEditorConfig } from '@wangeditor/editor'
-import { Descendant } from 'slate'
+import { onMounted, defineComponent, ref, PropType, toRaw, onBeforeUnmount } from 'vue'
+import { createEditor, IEditorConfig, SlateDescendant } from '@wangeditor/editor'
 import { getEditor, recordEditor, removeEditor } from '../utils/editor-map'
 import { genErrorInfo } from '../utils/create-info'
 import emitter from '../utils/emitter'
@@ -24,8 +23,8 @@ export default defineComponent({
     },
     /** 编辑器默认内容 */
     defaultContent: {
-      type: Array as PropType<Descendant[]>,
-      default: [],
+      type: Array as PropType<SlateDescendant[]>,
+      default: () => [],
     },
     defaultHtml: {
       type: String,
@@ -34,93 +33,76 @@ export default defineComponent({
     /** 编辑器默认配置 */
     defaultConfig: {
       type: Object as PropType<Partial<IEditorConfig>>,
-      default: {},
+      default: () => ({}),
     },
   },
-  created() {
+  setup(props, { emit }) {
     // 检查用户是否传入了editorId
-    if (this.editorId == null) {
+    if (!props.editorId) {
       throw new Error('Need `editorId` props when create <Editor/> component')
     }
-  },
-  setup(props, context) {
+
     // 编辑器容器
     const box = ref(null)
+
+    function validate(key: keyof IEditorConfig) {
+      if (typeof props.defaultConfig[key] === 'function') {
+        throw new Error(genErrorInfo(key))
+      }
+    }
+
     /**
      * 初始化编辑器
      */
     const initEditor = () => {
       if (!box.value) return
 
+      // 获取原始数据，解除响应式特性
+      const { editorId, mode, defaultConfig, defaultContent, defaultHtml } = toRaw(props)
+
       createEditor({
-        selector: box.value! as Element,
-        mode: props.mode,
-        content: props.defaultContent || [],
-        html: props.defaultHtml || '',
+        selector: box.value,
+        mode: mode,
+        content: defaultContent,
+        html: defaultHtml,
         config: {
-          ...props.defaultConfig,
+          ...defaultConfig,
           onCreated(editor) {
             // 记录 editor
-            recordEditor(props.editorId, editor)
+            recordEditor(editorId, editor)
             // 触发自定义事件（如创建 toolbar）
-            emitter.emit(`w-e-created-${props.editorId}`, editor)
-            context.emit('onCreated', editor)
-
-            if (props.defaultConfig.onCreated) {
-              const info = genErrorInfo('onCreated')
-              throw new Error(info)
-            }
+            emitter.emit(`w-e-created-${editorId}`, editor)
+            emit('onCreated', editor)
+            validate('onCreated')
           },
           onChange(editor) {
-            context.emit('onChange', editor)
-            if (props.defaultConfig.onChange) {
-              const info = genErrorInfo('onChange')
-              throw new Error(info)
-            }
+            emit('onChange', editor)
+            validate('onChange')
           },
           onDestroyed(editor) {
-            context.emit('onDestroyed', editor)
-            if (props.defaultConfig.onDestroyed) {
-              const info = genErrorInfo('onDestroyed')
-              throw new Error(info)
-            }
+            emit('onDestroyed', editor)
+            validate('onDestroyed')
           },
           onMaxLength(editor) {
-            context.emit('onMaxLength', editor)
-            if (props.defaultConfig.onMaxLength) {
-              const info = genErrorInfo('onMaxLength')
-              throw new Error(info)
-            }
+            emit('onMaxLength', editor)
+            validate('onMaxLength')
           },
           onFocus(editor) {
-            context.emit('onFocus', editor)
-            if (props.defaultConfig.onFocus) {
-              const info = genErrorInfo('onFocus')
-              throw new Error(info)
-            }
+            emit('onFocus', editor)
+            validate('onFocus')
           },
           onBlur(editor) {
-            context.emit('onBlur', editor)
-            if (props.defaultConfig.onBlur) {
-              const info = genErrorInfo('onBlur')
-              throw new Error(info)
-            }
+            emit('onBlur', editor)
+            validate('onBlur')
           },
           customAlert(info, type) {
-            context.emit('customAlert', info, type)
-            // @ts-ignore
-            if (props.defaultConfig.customAlert) {
-              const info = genErrorInfo('customAlert')
-              throw new Error(info)
-            }
+            emit('customAlert', info, type)
+            validate('customAlert')
           },
-          customPaste: (editor, event): any => {
-            if (props.defaultConfig.customPaste) {
-              const info = genErrorInfo('customPaste')
-              throw new Error(info)
-            }
+          customPaste(editor, event): any {
+            validate('customPaste')
             let res
-            context.emit('customPaste', editor, event, (val: boolean) => {
+            emit('customPaste', editor, event, (val: boolean) => {
               res = val
             })
             return res
@@ -128,14 +110,13 @@ export default defineComponent({
         },
       })
     }
+
     /**
      * 元素挂在后初始化编辑器
      */
-    onMounted(() => {
-      initEditor()
-    })
+    onMounted(initEditor)
 
-    onUnmounted(() => {
+    onBeforeUnmount(() => {
       const editor = getEditor(props.editorId)
       if (editor == null) return
       // 销毁，并移除 editor
@@ -143,9 +124,7 @@ export default defineComponent({
       removeEditor(props.editorId)
     })
 
-    return {
-      box,
-    }
+    return { box }
   },
 })
 </script>

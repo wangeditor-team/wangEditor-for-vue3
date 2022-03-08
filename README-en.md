@@ -36,7 +36,7 @@ yarn add @wangeditor/editor-for-vue
     <Editor
       :editorId="editorId"
       :defaultConfig="editorConfig"
-      :defaultContent="getDefaultContent"
+      :defaultContent="defaultContent"
       @onChange="handleChange"
       style="height: 500px"
     />
@@ -47,51 +47,50 @@ yarn add @wangeditor/editor-for-vue
 ### Script
 
 ```ts
-import '@wangeditor/editor/dist/css/style.css';
-import { computed, onUnmounted } from 'vue';
-import { Editor, Toolbar, getEditor, removeEditor } from '@wangeditor/editor-for-vue';
-import cloneDeep from 'lodash.clonedeep';
+import '@wangeditor/editor/dist/css/style.css'
+import { computed, onUnmounted } from 'vue'
+import { Editor, Toolbar, getEditor, removeEditor } from '@wangeditor/editor-for-vue'
 
 export default {
   name: 'MyEditor',
   components: { Editor, Toolbar },
   setup() {
-    const editorId = 'wangEditor-1';
+    const editorId = 'wangEditor-1'
     const defaultContent = [
       {
         type: 'paragraph',
         children: [{ text: 'One line of text' }],
       },
-    ];
+    ]
 
     // Deep clone `content`
-    const getDefaultContent = computed(() => cloneDeep(defaultContent));
+    const defaultContent = computed(() => cloneDeep(defaultContent))
 
     // Editor config
     const editorConfig = {
       placeholder: 'Type your text...',
-    };
+    }
 
-    const handleChange = (editor) => {
-      console.log('change:', editor.children);
-    };
+    const handleChange = editor => {
+      console.log('change:', editor.children)
+    }
 
     // Timely destroy editor
     onUnmounted(() => {
-      const editor = getEditor(editorId);
-      if (editor == null) return;
+      const editor = getEditor(editorId)
+      if (editor == null) return
 
       // Destroy and remove editor
-      editor.destroy();
-      removeEditor(editorId);
-    });
+      editor.destroy()
+      removeEditor(editorId)
+    })
 
     return {
       editorId,
-      getDefaultContent,
+      defaultContent,
       editorConfig,
       handleChange,
-    };
+    }
   },
-};
+}
 ```
