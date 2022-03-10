@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { onMounted, defineComponent, ref, PropType, onUnmounted } from 'vue'
+import { onMounted, defineComponent, ref, PropType, onUnmounted, toRaw } from 'vue'
 import { createEditor, IEditorConfig } from '@wangeditor/editor'
 import { Descendant } from 'slate'
 import { getEditor, recordEditor, removeEditor } from '../utils/editor-map'
@@ -51,11 +51,13 @@ export default defineComponent({
      */
     const initEditor = () => {
       if (!box.value) return
+      // 获取原始数据，解除响应式特性
+      const { defaultContent } = toRaw(props)
 
       createEditor({
         selector: box.value! as Element,
         mode: props.mode,
-        content: props.defaultContent || [],
+        content: defaultContent || [],
         html: props.defaultHtml || '',
         config: {
           ...props.defaultConfig,
