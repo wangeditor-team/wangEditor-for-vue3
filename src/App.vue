@@ -11,7 +11,7 @@
         :editorId="editorId"
         :mode="mode"
         :defaultConfig="editorConfig"
-        :defaultContent="getDefaultContent"
+        :defaultContent="defaultContent"
         :defaultHtml="defaultHtml"
         @onCreated="handleCreated"
         @onChange="handleChange"
@@ -27,7 +27,6 @@ import { defineComponent, computed, ref } from 'vue'
 import Editor from './components/Editor.vue'
 import Toolbar from './components/Toolbar.vue'
 import { IDomEditor } from '@wangeditor/editor'
-import { cloneDeep } from 'lodash'
 
 export default defineComponent({
   components: {
@@ -49,7 +48,7 @@ export default defineComponent({
       },
     ]
     // 深拷贝 defaultContent
-    const getDefaultContent = computed(() => cloneDeep(defaultContent))
+    // const getDefaultContent = computed(() => cloneDeep(defaultContent))
 
     // 编辑器默认内容 - HTML 格式
     // const defaultHtml = '<p>hello&nbsp;<strong>world</strong></p>\n<p><br></p>'
@@ -101,8 +100,8 @@ export default defineComponent({
       flag,
       editorId,
       mode,
-      getDefaultContent,
       defaultHtml,
+      defaultContent,
       editorConfig,
       handleCreated,
       handleChange,
