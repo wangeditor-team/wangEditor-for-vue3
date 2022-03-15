@@ -52,7 +52,7 @@ export default defineComponent({
     const initEditor = () => {
       if (!box.value) return
       // 获取原始数据，解除响应式特性
-      const { defaultContent } = toRaw(props)
+      const defaultContent = toRaw(props.defaultContent)
 
       createEditor({
         selector: box.value! as Element,

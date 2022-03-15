@@ -10,8 +10,8 @@
       <Editor
         :editorId="editorId"
         :mode="mode"
-        :defaultConfig="editorConfig"
         :defaultContent="defaultContent"
+        :defaultConfig="editorConfig"
         :defaultHtml="defaultHtml"
         @onCreated="handleCreated"
         @onChange="handleChange"
@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue'
+import { defineComponent, computed, ref, reactive } from 'vue'
 import Editor from './components/Editor.vue'
 import Toolbar from './components/Toolbar.vue'
 import { IDomEditor } from '@wangeditor/editor'
@@ -41,12 +41,12 @@ export default defineComponent({
     const editorId = 'we-1001'
 
     // 编辑器默认内容 - JSON 格式
-    const defaultContent = [
+    const defaultContent = ref([
       {
         type: 'paragraph',
         children: [{ text: '一行文字' }],
       },
-    ]
+    ])
     // 深拷贝 defaultContent
     // const getDefaultContent = computed(() => cloneDeep(defaultContent))
 
@@ -73,6 +73,13 @@ export default defineComponent({
         },
       },
     }
+
+    setTimeout(() => {
+      // defaultContent (JSON 格式) 和 defaultHtml (HTML 格式) ，二选一
+      // defaultHtml.value = '<p>hello&nbsp;<strong>world</strong></p>\n<p><br></p>'
+      defaultContent.value = [{ type: 'paragraph', children: [{ text: 'ajax 异步获取的内容' }] }]
+      flag.value = true
+    }, 5000)
 
     // 编辑器创建完成触发
     const handleCreated = (editor: IDomEditor) => {
