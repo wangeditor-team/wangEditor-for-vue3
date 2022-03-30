@@ -47,8 +47,6 @@ export default defineComponent({
         children: [{ text: '一行文字' }],
       },
     ])
-    // 深拷贝 defaultContent
-    // const getDefaultContent = computed(() => cloneDeep(defaultContent))
 
     // 编辑器默认内容 - HTML 格式
     // const defaultHtml = '<p>hello&nbsp;<strong>world</strong></p>\n<p><br></p>'
