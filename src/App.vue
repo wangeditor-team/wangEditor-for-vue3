@@ -18,7 +18,7 @@ export default defineComponent({
   setup() {
     const type = ref('')
 
-    function changeType(newType) {
+    function changeType(newType: string) {
       type.value = newType
     }
 
