@@ -3,9 +3,8 @@
 </template>
 
 <script lang="ts">
-import { onMounted, defineComponent, ref, PropType, onUnmounted, toRaw } from 'vue'
-import { createEditor, IEditorConfig } from '@wangeditor/editor'
-import { Descendant } from 'slate'
+import { onMounted, defineComponent, ref, PropType, onUnmounted, toRaw, watch } from 'vue'
+import { createEditor, IEditorConfig, SlateEditor, SlateTransforms, SlateDescendant } from '@wangeditor/editor'
 import { getEditor, recordEditor, removeEditor } from '../utils/editor-map'
 import { genErrorInfo } from '../utils/create-info'
 import emitter from '../utils/emitter'
@@ -24,7 +23,7 @@ export default defineComponent({
     },
     /** 编辑器默认内容 */
     defaultContent: {
-      type: Array as PropType<Descendant[]>,
+      type: Array as PropType<SlateDescendant[]>,
       default: [],
     },
     defaultHtml: {
@@ -36,6 +35,11 @@ export default defineComponent({
       type: Object as PropType<Partial<IEditorConfig>>,
       default: {},
     },
+    /* 自定义 v-model */
+    modelValue: {
+      type: String,
+      default: ''
+    }
   },
   created() {
     // 检查用户是否传入了editorId
@@ -44,8 +48,10 @@ export default defineComponent({
     }
   },
   setup(props, context) {
-    // 编辑器容器
-    const box = ref(null)
+    const box = ref(null) // 编辑器容器
+
+    const curValue = ref('') // 记录 editor 当前 html 内容
+
     /**
      * 初始化编辑器
      */
@@ -58,7 +64,7 @@ export default defineComponent({
         selector: box.value! as Element,
         mode: props.mode,
         content: defaultContent || [],
-        html: props.defaultHtml || '',
+        html: props.defaultHtml || props.modelValue || '',
         config: {
           ...props.defaultConfig,
           onCreated(editor) {
@@ -74,6 +80,10 @@ export default defineComponent({
             }
           },
           onChange(editor) {
+            const editorHtml = editor.getHtml()
+            curValue.value = editorHtml // 记录当前内容
+            context.emit('update:modelValue', editorHtml) // 触发 v-model 值变化
+
             context.emit('onChange', editor)
             if (props.defaultConfig.onChange) {
               const info = genErrorInfo('onChange')
@@ -130,11 +140,60 @@ export default defineComponent({
         },
       })
     }
+
+    /**
+     * 设置 HTML
+     * @param newHtml new html
+     */
+    function setHtml(newHtml: string) {
+      const editor = getEditor(props.editorId)
+      if (editor == null) return
+
+      // 记录编辑器当前状态
+      const isEditorDisabled = editor.isDisabled()
+      const isEditorFocused = editor.isFocused()
+      const editorSelectionStr = JSON.stringify(editor.selection)
+
+      // 删除并重新设置 HTML
+      editor.enable()
+      editor.focus()
+      editor.select([])
+      editor.deleteFragment()
+      // @ts-ignore
+      SlateTransforms.setNodes(editor, { type: 'paragraph' }, { mode: 'highest' })
+      editor.dangerouslyInsertHtml(newHtml)
+
+      // 恢复编辑器状态
+      if (!isEditorFocused) {
+        editor.deselect()
+        editor.blur()
+        return
+      }
+      if (isEditorDisabled) {
+        editor.deselect()
+        editor.disable()
+        return
+      }
+      try {
+        editor.select(JSON.parse(editorSelectionStr)) // 选中原来的位置
+      } catch (ex) {
+        editor.select(SlateEditor.start(editor, [])) // 选中开始
+      }
+    }
+
     /**
      * 元素挂在后初始化编辑器
      */
     onMounted(() => {
       initEditor()
+    })
+
+    // 监听 v-model 值变化
+    watch(() => props.modelValue, (newVal) => {
+      if (newVal === curValue.value) return // 和当前内容一样，则忽略
+
+      // 重新设置 HTML
+      setHtml(newVal)
     })
 
     onUnmounted(() => {
