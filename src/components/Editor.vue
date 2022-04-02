@@ -4,8 +4,7 @@
 
 <script lang="ts">
 import { onMounted, defineComponent, ref, PropType, onUnmounted, toRaw, watch } from 'vue'
-import { createEditor, IEditorConfig, SlateEditor, SlateTransforms } from '@wangeditor/editor'
-import { Descendant } from 'slate'
+import { createEditor, IEditorConfig, SlateEditor, SlateTransforms, SlateDescendant } from '@wangeditor/editor'
 import { getEditor, recordEditor, removeEditor } from '../utils/editor-map'
 import { genErrorInfo } from '../utils/create-info'
 import emitter from '../utils/emitter'
@@ -24,7 +23,7 @@ export default defineComponent({
     },
     /** 编辑器默认内容 */
     defaultContent: {
-      type: Array as PropType<Descendant[]>,
+      type: Array as PropType<SlateDescendant[]>,
       default: [],
     },
     defaultHtml: {
