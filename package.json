@@ -38,13 +38,10 @@
     "@wangeditor/editor": ">=0.15.6",
     "vue": "^3.0.5"
   },
-  "dependencies": {
-    "eventemitter3": "^4.0.7"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/preset-env": "^7.15.8",
     "@testing-library/jest-dom": "^5.14.1",
-    "@types/event-emitter": "^0.3.3",
     "@types/jest": "^27.0.2",
     "@types/lodash": "^4.14.172",
     "@types/node": "^16.7.1",
