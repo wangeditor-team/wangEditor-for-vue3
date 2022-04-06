@@ -3,19 +3,12 @@
 </template>
 
 <script lang="ts">
-import { onMounted, defineComponent, ref, PropType, onUnmounted, toRaw, watch } from 'vue'
-import { createEditor, IEditorConfig, SlateEditor, SlateTransforms, SlateDescendant } from '@wangeditor/editor'
-import { getEditor, recordEditor, removeEditor } from '../utils/editor-map'
+import { onMounted, defineComponent, ref, PropType, toRaw, watch, shallowRef } from 'vue'
+import { createEditor, IEditorConfig, SlateEditor, SlateTransforms, SlateDescendant, IDomEditor } from '@wangeditor/editor'
 import { genErrorInfo } from '../utils/create-info'
-import emitter from '../utils/emitter'
 
 export default defineComponent({
   props: {
-    /** 编辑器默认ID */
-    editorId: {
-      type: String,
-      required: true,
-    },
     /** 编辑器模式 */
     mode: {
       type: String,
@@ -41,14 +34,10 @@ export default defineComponent({
       default: ''
     }
   },
-  created() {
-    // 检查用户是否传入了editorId
-    if (this.editorId == null) {
-      throw new Error('Need `editorId` props when create <Editor/> component')
-    }
-  },
   setup(props, context) {
     const box = ref(null) // 编辑器容器
+
+    const editorRef = shallowRef<null | IDomEditor>(null) // editor 实例，必须用 shallowRef
 
     const curValue = ref('') // 记录 editor 当前 html 内容
 
@@ -68,10 +57,8 @@ export default defineComponent({
         config: {
           ...props.defaultConfig,
           onCreated(editor) {
-            // 记录 editor
-            recordEditor(props.editorId, editor)
-            // 触发自定义事件（如创建 toolbar）
-            emitter.emit(`w-e-created-${props.editorId}`, editor)
+            editorRef.value = editor // 记录 editor 实例
+
             context.emit('onCreated', editor)
 
             if (props.defaultConfig.onCreated) {
@@ -146,7 +133,7 @@ export default defineComponent({
      * @param newHtml new html
      */
     function setHtml(newHtml: string) {
-      const editor = getEditor(props.editorId)
+      const editor = editorRef.value
       if (editor == null) return
 
       // 记录编辑器当前状态
@@ -194,14 +181,6 @@ export default defineComponent({
 
       // 重新设置 HTML
       setHtml(newVal)
-    })
-
-    onUnmounted(() => {
-      const editor = getEditor(props.editorId)
-      if (editor == null) return
-      // 销毁，并移除 editor
-      editor.destroy()
-      removeEditor(props.editorId)
     })
 
     return {

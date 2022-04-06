@@ -5,10 +5,9 @@
     </button>
     <div v-if="flag" style="border: 1px solid #ccc">
       <!-- 工具栏 -->
-      <Toolbar :editorId="editorId" :mode="mode" style="border-bottom: 1px solid #ccc"/>
+      <Toolbar :editor="editorRef" :mode="mode" style="border-bottom: 1px solid #ccc"/>
       <!-- 编辑器 -->
       <Editor
-        :editorId="editorId"
         :mode="mode"
         :defaultContent="defaultContent"
         :defaultConfig="editorConfig"
@@ -23,10 +22,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, reactive, onBeforeUnmount } from 'vue'
+import { defineComponent, computed, ref, shallowRef, reactive, onBeforeUnmount } from 'vue'
 import Editor from '../components/Editor.vue'
 import Toolbar from '../components/Toolbar.vue'
-import { getEditor, removeEditor } from '../utils/editor-map'
 import { IDomEditor } from '@wangeditor/editor'
 
 export default defineComponent({
@@ -38,8 +36,9 @@ export default defineComponent({
     const flag = ref(false)
     // 模式
     const mode = 'default'
-    // 编辑器唯一id值
-    const editorId = 'we-1001'
+
+    // 编辑器实例，必须使用 shallowRef ！！！
+    const editorRef = shallowRef<IDomEditor | undefined>(undefined)
 
     // 编辑器默认内容 - JSON 格式
     const defaultContent = ref([
@@ -83,6 +82,7 @@ export default defineComponent({
     // 编辑器创建完成触发
     const handleCreated = (editor: IDomEditor) => {
       console.log('created', editor)
+      editorRef.value = editor // 记录 editor 实例
     }
     // 编辑器change事件触发
     const handleChange = (editor: IDomEditor) => {
@@ -104,16 +104,15 @@ export default defineComponent({
 
     // 组件销毁时，也及时销毁编辑器
     onBeforeUnmount(() => {
-      const editor = getEditor(editorId)
+      const editor = editorRef.value
       if (editor == null) return
 
       editor.destroy()
-      removeEditor(editorId)
     })
 
     return {
       flag,
-      editorId,
+      editorRef,
       mode,
       defaultHtml,
       defaultContent,
