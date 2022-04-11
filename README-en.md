@@ -6,8 +6,8 @@
 
 ## Introduction
 
-An out-of-the-box [Vue3 component](https://www.wangeditor.com/v5/guide/for-frame.html#vue3)
-based on the [wangEditor v5](https://www.wangeditor.com/v5/guide/for-frame.html#vue3)
+An out-of-the-box [Vue3 component](https://www.wangeditor.com/v5/for-frame.html#vue3)
+based on the [wangEditor 5](https://www.wangeditor.com/v5/for-frame.html#vue3)
 
 ## Installation
 
@@ -18,4 +18,4 @@ yarn add @wangeditor/editor-for-vue@next
 
 ## Usage
 
-[Usage doc](https://www.wangeditor.com/v5/en/guide/for-frame.html#vue3)
+[Usage doc](https://www.wangeditor.com/en/v5/for-frame.html#vue3)
