@@ -1,16 +1,16 @@
 <template>
-    <div>
-        <textarea v-model="valueHtml" style="width: 100%; height: 150px;"></textarea>
-    </div>
-    <div style="border: 1px solid #ccc; margin-top: 20px;">
-        <Toolbar :editor="editorRef" style="border-bottom: 1px solid #ccc"/>
-        <Editor
-            :defaultConfig="editorConfig"
-            v-model="valueHtml"
-            @onCreated="handleCreated"
-            style="height: 300px"
-        />
-    </div>
+  <div>
+    <textarea v-model="valueHtml" style="width: 100%; height: 150px"></textarea>
+  </div>
+  <div style="border: 1px solid #ccc; margin-top: 20px">
+    <Toolbar :editor="editorRef" style="border-bottom: 1px solid #ccc" />
+    <Editor
+      :defaultConfig="editorConfig"
+      v-model="valueHtml"
+      @onCreated="handleCreated"
+      style="height: 300px"
+    />
+  </div>
 </template>
 
 <script lang="ts">
@@ -33,10 +33,13 @@ export default defineComponent({
     // 编辑器相关配置
     const editorConfig = {
       placeholder: '请输入内容...',
+      readOnly: true,
+      autoFocus: false,
     }
 
     function handleCreated(editor: IDomEditor) {
       editorRef.value = editor
+      console.log('config', editor.getConfig())
     }
 
     onMounted(() => {
@@ -55,11 +58,11 @@ export default defineComponent({
     })
 
     return {
-        editorRef,
-        handleCreated,
-        editorConfig,
-        valueHtml
+      editorRef,
+      handleCreated,
+      editorConfig,
+      valueHtml,
     }
-  }
+  },
 })
 </script>

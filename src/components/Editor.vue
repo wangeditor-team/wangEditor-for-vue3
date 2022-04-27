@@ -4,7 +4,14 @@
 
 <script lang="ts">
 import { onMounted, defineComponent, ref, PropType, toRaw, watch, shallowRef } from 'vue'
-import { createEditor, IEditorConfig, SlateEditor, SlateTransforms, SlateDescendant, IDomEditor } from '@wangeditor/editor'
+import {
+  createEditor,
+  IEditorConfig,
+  SlateEditor,
+  SlateTransforms,
+  SlateDescendant,
+  IDomEditor,
+} from '@wangeditor/editor'
 import { genErrorInfo } from '../utils/create-info'
 
 export default defineComponent({
@@ -31,8 +38,8 @@ export default defineComponent({
     /* 自定义 v-model */
     modelValue: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   setup(props, context) {
     const box = ref(null) // 编辑器容器
@@ -154,17 +161,17 @@ export default defineComponent({
       if (!isEditorFocused) {
         editor.deselect()
         editor.blur()
-        return
       }
       if (isEditorDisabled) {
         editor.deselect()
         editor.disable()
-        return
       }
-      try {
-        editor.select(JSON.parse(editorSelectionStr)) // 选中原来的位置
-      } catch (ex) {
-        editor.select(SlateEditor.start(editor, [])) // 选中开始
+      if (editor.isFocused()) {
+        try {
+          editor.select(JSON.parse(editorSelectionStr)) // 选中原来的位置
+        } catch (ex) {
+          editor.select(SlateEditor.start(editor, [])) // 选中开始
+        }
       }
     }
 
@@ -176,12 +183,15 @@ export default defineComponent({
     })
 
     // 监听 v-model 值变化
-    watch(() => props.modelValue, (newVal) => {
-      if (newVal === curValue.value) return // 和当前内容一样，则忽略
+    watch(
+      () => props.modelValue,
+      newVal => {
+        if (newVal === curValue.value) return // 和当前内容一样，则忽略
 
-      // 重新设置 HTML
-      setHtml(newVal)
-    })
+        // 重新设置 HTML
+        setHtml(newVal)
+      }
+    )
 
     return {
       box,
