@@ -33,6 +33,8 @@ export default defineComponent({
     // 编辑器相关配置
     const editorConfig = {
       placeholder: '请输入内容...',
+      // autofocus: false,
+      // readOnly: true
     }
 
     function handleCreated(editor: IDomEditor) {
