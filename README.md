@@ -8,6 +8,8 @@
 
 基于 [wangEditor](https://www.wangeditor.com/) 封装的开箱即用的 [Vue3 组件](https://www.wangeditor.com/v5/for-frame.html#vue3)
 
+- [vue3组件在线demo](https://codesandbox.io/s/wangeditor-vue3-demo-forked-hhist5)
+
 ## 安装
 
 ```shell
