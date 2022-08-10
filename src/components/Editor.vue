@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { onMounted, defineComponent, ref, PropType, toRaw, watch, shallowRef } from 'vue'
+import { onMounted, onUnmounted, defineComponent, ref, PropType, toRaw, watch, shallowRef } from 'vue'
 import { createEditor, IEditorConfig, SlateDescendant, IDomEditor } from '@wangeditor/editor'
 import { genErrorInfo } from '../utils/create-info'
 
@@ -145,6 +145,14 @@ export default defineComponent({
       initEditor()
     })
 
+    /**
+     * 组件卸载后需要摧毁editor
+     */
+    onUnmounted(() => {
+      const editor = editorRef.value
+      if (editor == null) return
+      editor.destroy()
+    })
     // 监听 v-model 值变化
     watch(
       () => props.modelValue,
