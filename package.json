@@ -20,7 +20,8 @@
   "exports": {
     ".": {
       "import": "./dist/index.esm.js",
-      "require": "./dist/index.js"
+      "require": "./dist/index.js",
+      "types": "./dist/src/index.d.ts"
     }
   },
   "repository": {
